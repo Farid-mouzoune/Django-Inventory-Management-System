@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% for stock in all_stock %}
+{{ stock.name }} {{ stock.description }} {{ stock.price }} MAD <br>
+{% endfor %}
+</body>
+</html>
