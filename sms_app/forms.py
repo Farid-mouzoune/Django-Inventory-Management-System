@@ -11,7 +11,9 @@ class StockAdminFormView(forms.ModelForm):
 class StockFormView(forms.ModelForm):
     class Meta:
         model = Stock
-        fields = ['name', 'description', 'price']
+        fields = ['name', 'description', 'price', 'receive_quantity',
+                  'receive_by', 'image', 'tags_id']
+        # fields = "__all__"
 
 
 class TagAdminFormView(forms.ModelForm):

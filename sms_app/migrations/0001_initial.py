@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('issue_quantity', models.IntegerField(default=0, null=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
                 ('export_to_csv', models.BooleanField(default=False)),
-                ('tags_id', models.ManyToManyField(to='sms.Tag')),
+                ('tags_id', models.ManyToManyField(to='sms_app.Tag')),
                 ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

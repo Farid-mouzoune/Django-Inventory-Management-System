@@ -1,0 +1,126 @@
+{% extends "sms_app/main.html" %}
+{% load static %}
+{% block content %}
+
+<!--<div class="container-fluid">-->
+<!--    <div class="row mt-4">-->
+<!--        <div class="col-lg-3"></div>-->
+<!--        <div class="col-lg-6">-->
+<!--            {% for stock in all_stock %}-->
+<!--            {{ stock.name }} {{ stock.description }} {{ stock.price }} MAD <br><br>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--        <div class="col-lg-3"></div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="container px-4 py-5" id="custom-cards">-->
+<!--    <h2 class="pb-2 border-bottom">Inventory</h2>-->
+
+<!--    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">-->
+<!--        {% for stock in all_stock %}-->
+
+<!--      <div class="col-lg-4">-->
+<!--        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">-->
+<!--          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">-->
+<!--            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ stock.name }}</h2>-->
+<!--            <ul class="d-flex list-unstyled mt-auto">-->
+<!--              <li class="me-auto">-->
+<!--                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">-->
+<!--              </li>-->
+<!--              <li class="d-flex align-items-center me-3">-->
+<!--                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>-->
+<!--                <small>Earth</small>-->
+<!--              </li>-->
+<!--              <li class="d-flex align-items-center">-->
+<!--                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>-->
+<!--                <small>3d</small>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--    {% endfor %}-->
+
+
+<!--<div class="container-fluid">-->
+<!--<div class="row mt-4">-->
+<!--    <div class="col-lg-3"></div>-->
+<!--    <div class="col-lg-6"></div>-->
+<!--          {% for stock in all_stock %}-->
+
+<!--<div class="album py-4 bg-light">-->
+<!--    <div class="container-fluid">-->
+
+<!--        <div class="col-lg-4">-->
+
+<!--          <div class="card shadow-lg">-->
+<!--            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" aria-label="Placeholder: Thumbnail"  focusable="false">-->
+<!--                <rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ stock.name }}</text></svg>-->
+<!--              {% if stock.image %}-->
+<!--            <img src="{{stock.image.url}}" alt="missing pic" class="rounded-circle" height="200" width="220" style="margin-left:35px;">-->
+<!--            {% endif %}-->
+<!--            <div class="card-body" style="font-family:i; text-align:center;">-->
+<!--               <p class="card-text" style="text-align:center; font-family:i;"> {{ stock.name }}</p>-->
+<!--              <p class="card-text" style=" font-family:i;">{{ stock.description|truncatewords:'5' }}</p>-->
+<!--              <div class="d-flex justify-content-between align-items-center">-->
+<!--                  <small class="text-muted">{{stock.date_created|date:"d-m-Y"}}</small>-->
+<!--                  <div class="btn-group" style=" margin-left:5px;">-->
+<!--                      <button type="button" class="btn btn-sm btn-outline-secondary" >View</button>-->
+<!--                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>-->
+<!--                  </div>-->
+<!--                    <p class="card-text" style="text-align:center; font-family:i; margin-left:15px; margin-top:px;">{{ stock.price|floatformat:0 }} MAD</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--{% endfor %}-->
+<!--</div>-->
+
+
+
+
+<!--    <div class="col-lg-3"></div>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+<table class="table table-striped" style="text-align:center; font-weight:bold; font-family:i;">
+  <br>
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Q: Required</th>
+      <th scope="col">Q: Received</th>
+      <th scope="col">Q: Issue</th>
+      <th scope="col">Q: Total</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Total Q Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for stock in all_stock %}
+
+    <tr>
+      <th scope="row" style="color:blue;">{{ stock.id }}</th>
+      <td><span style="color:green;">{{ stock.name }}</span></td>
+      <td>{{ stock.quantity }}</td>
+      <td>{{ stock.quantity_required }} </td>
+      <td>{{ stock.receive_quantity }} </td>
+      <td><span style="color:red;">{{ stock.issue_quantity }}</span> </td>
+      <td>{{ stock.quantity_calc }} </td>
+      <td>{{ stock.price }} MAD</td>
+      <td>{{ stock.total_quantity }} MAD</td>
+    </tr>
+  </tbody>
+    {% endfor %}
+
+</table>
+
+{% endblock %}
