@@ -25,4 +25,8 @@ urlpatterns = [
     path('', include('sms_app.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# handler404 = 'sms_app.views.error_404'
+# handler500 = 'sms_app.views.error_500'
+# handler403 = 'sms_app.views.error_403'
+# handler400 = 'sms_app.views.error_400'
 

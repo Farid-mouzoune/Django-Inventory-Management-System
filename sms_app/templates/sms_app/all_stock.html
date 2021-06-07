@@ -1,6 +1,9 @@
 {% extends "sms_app/main.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+
 {% block content %}
+
 
 <!--<div class="container-fluid">-->
 <!--    <div class="row mt-4">-->
@@ -89,6 +92,19 @@
 <!--    </div>-->
 <!--</div>-->
 
+
+
+
+<!-- search-->
+<form method='POST'>
+    {% csrf_token %}
+    {{ form|crispy }}<br>
+    <input type="submit" value="Search"/>
+</form>
+
+<a href="{% url 'sms_app:export-pdf' %}" class="btn btn-info" style="margin-top:-60px; margin-left:900px;">Export PDF</a><br>
+
+
 <table class="table table-striped" style="text-align:center; font-weight:bold; font-family:i;">
   <br>
   <thead>
@@ -101,26 +117,36 @@
       <th scope="col">Q: Issue</th>
       <th scope="col">Q: Total</th>
       <th scope="col">Unit Price</th>
-      <th scope="col">Total Q Price</th>
+      <th scope="col">Add / Delete</th>
     </tr>
   </thead>
-  <tbody>
   {% for stock in all_stock %}
-
+  <tbody>
     <tr>
       <th scope="row" style="color:blue;">{{ stock.id }}</th>
-      <td><span style="color:green;">{{ stock.name }}</span></td>
+      <td>{{ stock.name }}</td>
       <td>{{ stock.quantity }}</td>
       <td>{{ stock.quantity_required }} </td>
       <td>{{ stock.receive_quantity }} </td>
       <td><span style="color:red;">{{ stock.issue_quantity }}</span> </td>
       <td>{{ stock.quantity_calc }} </td>
       <td>{{ stock.price }} MAD</td>
-      <td>{{ stock.total_quantity }} MAD</td>
+      <td><a href="{% url 'sms_app:update_stock' stock.id %}"><span class="iconify" data-icon="dashicons:update-alt" data-inline="false"></span></a>
+        <a href="{% url 'sms_app:delete_stock' stock.id %}"><span class="iconify" data-icon="ion:trash" data-inline="false"></span></a></td>
     </tr>
   </tbody>
     {% endfor %}
 
 </table>
 
+
+
+<!--<div class="container">-->
+<!--  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">-->
+<!--    <div class="col">-->
+<!--      <div class="p-3 border bg-light">Row column</div>-->
+<!--    </div>-->
+
+<!--  </div>-->
+<!--</div>-->
 {% endblock %}

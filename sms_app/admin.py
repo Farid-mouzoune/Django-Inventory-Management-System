@@ -5,7 +5,7 @@ from .forms import StockAdminFormView, TagAdminFormView
 
 
 class StockAdminView(admin.ModelAdmin):
-    list_display = ['name', 'description', 'date_created', 'last_updated', 'receive_by', 'quantity', 'price', 'total_quantity', 'issue_by']
+    list_display = ['name', 'description', 'date_created', 'last_updated', 'receive_by', 'quantity', 'price', 'issue_by']
     form = StockAdminFormView
     list_filter = ['tags_id', 'date_created']
     search_fields = ['name']

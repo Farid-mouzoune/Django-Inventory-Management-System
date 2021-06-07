@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
 # Create your models here.
 
 
@@ -12,14 +13,18 @@ class Tag(models.Model):
         return self.name
 
 
+category_choices = [('Furniture', 'Furniture'), ('Sport', 'Sport'),
+                    ('Accessories Auto', 'Accessories Auto'), ('Movies', 'Movies')]
+
+
 class Stock(models.Model):
-    name = models.CharField(max_length=30, null=True)
+    name = models.CharField(max_length=30, null=True, blank=True)
     description = models.TextField(default='', null=True, blank=True)
     price = models.IntegerField("Unit Price",null=True, blank=True)
+    category = models.CharField('Category', max_length=40, blank=True, null=True, choices=category_choices)
     quantity_before = models.IntegerField(null=True, default=0, blank=True)
-    quantity = models.IntegerField(null=True, default=0, blank=True)
+    quantity = models.IntegerField(null=True, default=0, blank=False)
     quantity_calc = models.IntegerField('Total Q',null=True, default=0, blank=True)
-    total_quantity = models.IntegerField("Total Price",null=True, default=0, blank=True)
     image = models.ImageField(upload_to='sms_images/', blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     quantity_required = models.IntegerField('Q Required', blank=False, null=True)
@@ -29,7 +34,7 @@ class Stock(models.Model):
     issue_by = models.CharField(max_length=30, null=True, blank=True)
     issue_quantity = models.IntegerField(default=0, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    export_to_csv = models.BooleanField(default=False, blank=True)
+    export_to_csv = models.BooleanField(default=False)
     tags_id = models.ManyToManyField(Tag, blank=True)
 
 # if you want to use calculated field you should remove field from form & its done
@@ -42,11 +47,6 @@ class Stock(models.Model):
         x = self.quantity + self.receive_quantity
         return x
     quantity_calc = property(_get_total_quantity)
-
-    # quantity * price
-    def _get_full_name(self):
-        return self.quantity * self.price
-    total_quantity = property(_get_full_name)
 
     def _get_issue_by(self):
         return self.receive_by
