@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    @page {
+      size: "A4";
+      margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+
+    }
+    @top-center {
+      content: "COMPANY NAME";
+    }
+    @bottom-right {
+      content: "Page " counter(page) " of "counter(pages);
+    }
+    #centxt{
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+
+<h2 id="centxt">Stock List </h2>
+<br>
+
+<table class="table table-striped" style="text-align:center; font-weight:bold; font-family:i;">
+  <br>
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">#</th>
+      <th scope="col">Name </th>
+      <th scope="col">Quantity </th>
+      <th scope="col">Q: Required </th>
+      <th scope="col">Q: Received </th>
+      <th scope="col">Q: Issue </th>
+    </tr>
+  </thead>
+  {% for st in stock %}
+  <tbody>
+    <tr>
+      <th scope="row" style="color:blue;">{{ forloop.counter }}</th>
+      <td>{{ st.name }}</td>
+      <td>{{ st.quantity }}</td>
+      <td>{{ st.quantity_required }} </td>
+      <td>{{ st.receive_quantity }} </td>
+      <td><span style="color:red;">{{ st.issue_quantity }}</span> </td>
+
+    </tr>
+  </tbody>
+    {% endfor %}
+
+</table>
+
+
+</body>
+</html>

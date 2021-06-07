@@ -1,0 +1,16 @@
+{% extends "sms_app/main.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<form method="POST">
+    {% csrf_token %}
+    <h2> Are you sure you want to delete that item ?</h2>
+
+    <input type="submit" class="btn btn-danger" value="Yes"/>
+    <a href="/stocks"><div class="btn btn-primary">Cancel</div></a>
+</form>
+
+
+{% endblock %}
