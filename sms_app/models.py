@@ -33,7 +33,7 @@ class Stock(models.Model):
     receive_by = models.CharField(max_length=30, null=True, blank=True)
     issue_by = models.CharField(max_length=30, null=True, blank=True)
     issue_quantity = models.IntegerField(default=0, null=True, blank=True)
-    last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    last_updated = models.DateTimeField(auto_now=True)
     export_to_csv = models.BooleanField(default=False)
     tags_id = models.ManyToManyField(Tag, blank=True)
 

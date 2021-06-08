@@ -96,6 +96,14 @@
 
 
 <!-- search-->
+{% if messages %}
+  <ul class="message">
+    {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <form method='POST'>
     {% csrf_token %}
     {{ form|crispy }}<br>
@@ -103,6 +111,7 @@
 </form>
 
 <a href="{% url 'sms_app:export-pdf' %}" class="btn btn-info" style="margin-top:-60px; margin-left:900px;">Export PDF</a><br>
+<a href="{% url 'sms_app:export-excel' %}" class="btn btn-info" style="margin-top:-108px; margin-left:750px;">Export EXCEL</a><br>
 
 
 <table class="table table-striped" style="text-align:center; font-weight:bold; font-family:i;">
@@ -121,10 +130,11 @@
     </tr>
   </thead>
   {% for stock in all_stock %}
+
   <tbody>
     <tr>
       <th scope="row" style="color:blue;">{{ stock.id }}</th>
-      <td>{{ stock.name }}</td>
+      <td><a href="{% url 'sms_app:get_stock' stock.id %}"><span style="color:green;">{{ stock.name }}</span></a></td>
       <td>{{ stock.quantity }}</td>
       <td>{{ stock.quantity_required }} </td>
       <td>{{ stock.receive_quantity }} </td>

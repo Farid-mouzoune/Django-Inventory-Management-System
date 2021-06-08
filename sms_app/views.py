@@ -1,25 +1,38 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from .models import Stock, Tag
-from .forms import StockFormView, StockUpdateForm, StockSearchForm
+from .forms import *
 from django.shortcuts import get_object_or_404
 import csv
 import datetime
 from django.db.models import Q, Sum
 from django.template.loader import render_to_string
+from django.contrib import messages
 from weasyprint import HTML
 import tempfile
-
+import xlwt
 # Create your views here.
 
 
-def get_stock(request, id):
-    try:
-        stock = Stock.objects.get(id=id)
-    except Stock.DoesNotExist:
-        return render(request, 'sms_app/404.html')
-    context = {'get_stock': stock}
-    return render(request, 'sms_app/get_stock.html', context)
+def export_excel(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=stock excel' + str(datetime.datetime.now()) + '.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Stock')
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['NAME', 'QUANTITY', 'QUANTITY RECEIVED']
+    for col in range(len(columns)):
+        ws.write(row_num, col, columns[col], font_style)
+    font_style.font.bold = xlwt.XFStyle()
+    rows = Stock.objects.filter().values_list('name', 'quantity', 'receive_quantity')
+    for row in rows:
+        row_num += 1
+        for col in range(len(row)):
+            ws.write(row_num, col, str(row[col]), font_style)
+    wb.save(response)
+    return response
 
 
 def dashboard(request):
@@ -92,12 +105,62 @@ def add_stock(request):
     form = StockFormView(request.POST, request.FILES)
     if form.is_valid():
         form.save()
+        messages.success(request, 'Product was added with successfully')
         return redirect('/stocks')
     else:
         form = StockFormView(request.POST, request.FILES)
     title = 'Add Item'
     content = "Let's Add an item to your inventory"
     context = {'form': form, 'title': title, 'content': content}
+    return render(request, 'sms_app/add_stock.html', context)
+
+
+def get_stock(request, id):
+    try:
+        stock = Stock.objects.get(id=id)
+    except Stock.DoesNotExist:
+        return render(request, 'sms_app/404.html')
+    context = {'get_stock': stock}
+    return render(request, 'sms_app/get_stock.html', context)
+
+
+def receive_quantity(request, id):
+
+    queryset = Stock.objects.get(id=id)
+    form = StockReceiveQuantityForm(instance=queryset)
+    if request.method == 'POST':
+        form = StockReceiveQuantityForm(request.POST or None, instance=queryset)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.receive_quantity = instance.receive_quantity
+            instance.save()
+            return redirect('/stock/'+str(instance.id))
+    context = {
+        'title': 'Receive',
+        'get_stock': queryset,
+        'form': form,
+        'username': 'Receive by',
+    }
+    return render(request, 'sms_app/add_stock.html', context)
+
+
+def quantity_required(request, id):
+
+    queryset = Stock.objects.get(id=id)
+    form = StockQuantityRequiredForm(instance=queryset)
+    if request.method == 'POST':
+        form = StockQuantityRequiredForm(request.POST or None, instance=queryset)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.quantity_required = instance.quantity_required
+            instance.save()
+            return redirect('/stock/'+str(instance.id))
+    context = {
+        'title': 'Receive',
+        'get_stock': queryset,
+        'form': form,
+        'username': 'Receive by',
+    }
     return render(request, 'sms_app/add_stock.html', context)
 
 
@@ -108,6 +171,7 @@ def update_stock(request, id):
         form = StockUpdateForm(request.POST, instance=query)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Product was Updated with successfully')
             return redirect('/stocks')
 
     context = {'form': form}
@@ -118,6 +182,7 @@ def delete_stock(request, id):
     query = Stock.objects.get(id=id)
     if request.method == 'POST':
         query.delete()
+        messages.success(request, 'Product was deleted with successfully')
         return redirect('/stocks')
     return render(request, 'sms_app/delete_stock.html')
 

@@ -33,3 +33,15 @@ class StockSearchForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['name', 'quantity', 'export_to_csv']
+
+
+class StockReceiveQuantityForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['receive_quantity']
+
+
+class StockQuantityRequiredForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['quantity_required']
