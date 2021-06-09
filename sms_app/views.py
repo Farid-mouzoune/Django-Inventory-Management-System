@@ -186,6 +186,23 @@ def delete_stock(request, id):
         return redirect('/stocks')
     return render(request, 'sms_app/delete_stock.html')
 
+
+def reorder_level(request, id):
+    queryset = Stock.objects.get(id=id)
+    form = ReorderLevelForm(request.POST or None, instance=queryset)
+    if request.method == "POST":
+        if form.is_valid():
+            form = ReorderLevelForm(request.POST or None, instance=queryset)
+            instance = form.save(commit=False)
+            instance.save()
+            return redirect('/stocks')
+    context = {
+        'stock': queryset,
+        'form': form,
+    }
+    return render(request, 'sms_app/add_stock.html', context)
+
+
 # def error_404(request, exception):
 #     print('no')
 #     return render(request, 'sms_app/404.html')

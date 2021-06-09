@@ -24,7 +24,7 @@ class Stock(models.Model):
     category = models.CharField('Category', max_length=40, blank=True, null=True, choices=category_choices)
     quantity_before = models.IntegerField(null=True, default=0, blank=True)
     quantity = models.IntegerField(null=True, default=0, blank=False)
-    quantity_calc = models.IntegerField('Total Q',null=True, default=0, blank=True)
+    quantity_calc = models.IntegerField('Total Q', null=True, default=0, blank=True)
     image = models.ImageField(upload_to='sms_images/', blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     quantity_required = models.IntegerField('Q Required', blank=False, null=True)
@@ -35,6 +35,7 @@ class Stock(models.Model):
     issue_quantity = models.IntegerField(default=0, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
     export_to_csv = models.BooleanField(default=False)
+    reorder_level = models.IntegerField(default=0, null=True, blank=True)
     tags_id = models.ManyToManyField(Tag, blank=True)
 
 # if you want to use calculated field you should remove field from form & its done

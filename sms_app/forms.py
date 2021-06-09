@@ -18,7 +18,7 @@ class StockFormView(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['name', 'description', 'category', 'price', 'quantity', 'receive_quantity', 'quantity_required',
-                  'receive_by', 'image', 'tags_id']
+                  'receive_by', 'image', 'tags_id', 'reorder_level']
         # fields = "__all__"
 
 
@@ -45,3 +45,9 @@ class StockQuantityRequiredForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['quantity_required']
+
+
+class ReorderLevelForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['reorder_level']

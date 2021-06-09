@@ -126,7 +126,8 @@
       <th scope="col">Q: Issue</th>
       <th scope="col">Q: Total</th>
       <th scope="col">Unit Price</th>
-      <th scope="col">Add / Delete</th>
+      <th scope="col">Order level</th>
+      <th scope="col">Update  or Delete</th>
     </tr>
   </thead>
   {% for stock in all_stock %}
@@ -134,13 +135,18 @@
   <tbody>
     <tr>
       <th scope="row" style="color:blue;">{{ stock.id }}</th>
-      <td><a href="{% url 'sms_app:get_stock' stock.id %}"><span style="color:green;">{{ stock.name }}</span></a></td>
+      <td>{% if stock.quantity_calc <= stock.reorder_level %}
+        <a href="{% url 'sms_app:get_stock' stock.id %}"><span style="color:white;background-color:black;">{{ stock.name }}</span></a>
+      {% else %}
+        <a href="{% url 'sms_app:get_stock' stock.id %}"><span style="color:black; ">{{ stock.name }}</span></a>
+      {% endif %}</td>
       <td>{{ stock.quantity }}</td>
       <td>{{ stock.quantity_required }} </td>
       <td>{{ stock.receive_quantity }} </td>
       <td><span style="color:red;">{{ stock.issue_quantity }}</span> </td>
       <td>{{ stock.quantity_calc }} </td>
       <td>{{ stock.price }} MAD</td>
+      <td><a href="{% url 'sms_app:reorder_level' stock.id %}"><span style="color:grey;">{{ stock.reorder_level }}</span></a></td>
       <td><a href="{% url 'sms_app:update_stock' stock.id %}"><span class="iconify" data-icon="dashicons:update-alt" data-inline="false"></span></a>
         <a href="{% url 'sms_app:delete_stock' stock.id %}"><span class="iconify" data-icon="ion:trash" data-inline="false"></span></a></td>
     </tr>

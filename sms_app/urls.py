@@ -12,6 +12,7 @@ urlpatterns = [
     path('add/stock', views.add_stock, name='add_stock'),
     path('update/stock/<str:id>', views.update_stock, name='update_stock'),
     path('delete/stock/<str:id>', views.delete_stock, name='delete_stock'),
+    path('reorder_level/<str:id>', views.reorder_level, name='reorder_level'),
     path('export-pdf', views.export_pdf, name='export-pdf'),
     path('export-excel', views.export_excel, name='export-excel'),
     # path('export-csv', views.export_csv, name='export-csv'),
