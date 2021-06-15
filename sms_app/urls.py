@@ -17,11 +17,6 @@ urlpatterns = [
     path('export-excel', views.export_excel, name='export-excel'),
     # path('export-csv', views.export_csv, name='export-csv'),
     path('dashboard', views.dashboard, name='dashboard'),
-    # path('404', views.error_404, name='404'),
-
-
-    # path('profile', views.profile, name='profile'),
-    # path('edit', UserEditView.as_view(), name='profile_edit'),
 
 ]
 

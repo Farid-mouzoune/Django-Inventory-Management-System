@@ -2,23 +2,40 @@
 {% load static %}
 {% block content %}
 
+
+
+
+{% if messages %}
+  <ul class="message" style="font-family:i; text-align:center; background-color:skyblue;">
+    {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <div style="margin-left:600px;">
     <a href="{% url 'sms_app:receive_quantity' get_stock.id %}"><div class="btn btn-info">Edit Receive Quantity</div></a>
     <a href="{% url 'sms_app:quantity_required' get_stock.id %}"><div class="btn btn-info">Edit Quantity Required</div></a>
 </div>
 <br>
+<div class="row mt-4">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
 
-Name : {{ get_stock.name}}<br>
-Description : {{ get_stock.description}}<br>
-Price : {{ get_stock.price}}<br>
-Quantity : {{ get_stock.quantity}}<br>
-Quantity Required : {{ get_stock.quantity_required}}<br>
-Receive Quantity : {{ get_stock.receive_quantity}}<br>
-Issue Quantity : {{ get_stock.issue_quantity}}<br>
-Date Created : {{ get_stock.date_created}}<br>
-Last Update : {{ get_stock.last_updated}}<br>
-<br><br>
-Total Quantity : {{ get_stock.quantity_calc}}<br>
-
+    </div>
+    <div class="col-lg-4">
+        Name : {{ get_stock.name}}<br>
+        Description : {{ get_stock.description}}<br>
+        Price : {{ get_stock.price}}<br>
+        Quantity : {{ get_stock.quantity}}<br>
+        Quantity Required : {{ get_stock.quantity_required}}<br>
+        Receive Quantity : {{ get_stock.receive_quantity}}<br>
+        Issue Quantity : {{ get_stock.issue_quantity}}<br>
+        Date Created : {{ get_stock.date_created}}<br>
+        Last Update : {{ get_stock.last_updated}}<br>
+        <br><br>
+        <h3 style="font-weight:bold; font-family:i;">Total Quantity : {{ get_stock.quantity_calc}}</h3><br>
+    </div>
+</div>
 
 {% endblock %}

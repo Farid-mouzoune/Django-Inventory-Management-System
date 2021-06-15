@@ -61,23 +61,6 @@ def all_stock(request):
     return render(request, 'sms_app/all_stock.html', context)
 
 
-# def export_csv(request):
-#     # stock = Stock.objects.all()
-#     form = StockSearchForm(request.POST)
-#     if request.method == 'POST':
-#         response = HttpResponse(content_type='text/csv')
-#         response['Content-Disposition'] = 'attachment; filename=list of stock' + str(datetime.datetime.now()) + '.csv'
-#         writer = csv.writer(response)
-#         writer.writerow(['NAME', 'QUANTITY', 'QUANTITY RECEIVED', 'QUANTITY ISSUE'])
-#         stock = Stock.objects.filter(name__icontains=form['name'].value())
-#         instance = stock
-#         for stock in instance:
-#             writer.writerow([stock.name, stock.quantity, stock.receive_quantity, stock.issue_quantity])
-#             return response
-#
-#     return render(request, 'sms_app/all_stock.html')
-
-
 def export_pdf(request):
     stock = Stock.objects.all()
     sum = stock.count()
@@ -125,7 +108,6 @@ def get_stock(request, id):
 
 
 def receive_quantity(request, id):
-
     queryset = Stock.objects.get(id=id)
     form = StockReceiveQuantityForm(instance=queryset)
     if request.method == 'POST':
@@ -134,6 +116,21 @@ def receive_quantity(request, id):
             instance = form.save(commit=False)
             instance.receive_quantity = instance.receive_quantity
             instance.save()
+            receiver_stock_history = StockHistory(
+                id=instance.id,
+                name=instance.name,
+                description=instance.description,
+                price=instance.price,
+                quantity=instance.quantity,
+                receive_quantity=instance.receive_quantity,
+                quantity_required=instance.quantity_required,
+                issue_quantity=instance.issue_quantity,
+                issue_by=instance.issue_by,
+                quantity_calc=instance.quantity_calc,
+                last_updated=instance.last_updated,
+            )
+            receiver_stock_history.save()
+            messages.success(request, f"Received Successfully  {str(instance.quantity_calc)}  {str(instance.name)}'s now in store")
             return redirect('/stock/'+str(instance.id))
     context = {
         'title': 'Receive',
@@ -201,8 +198,3 @@ def reorder_level(request, id):
         'form': form,
     }
     return render(request, 'sms_app/add_stock.html', context)
-
-
-# def error_404(request, exception):
-#     print('no')
-#     return render(request, 'sms_app/404.html')

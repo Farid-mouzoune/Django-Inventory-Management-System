@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'sms_app',
     'csvimport.app.CSVImportConf',
+    'api',
+    'rest_framework',
 
 ]
 
